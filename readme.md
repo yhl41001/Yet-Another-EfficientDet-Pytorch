@@ -11,16 +11,16 @@ The performance is very close to the paper's, it is still SOTA.
 
 The speed/FPS test includes the time of post-processing with no jit/data precision trick.
 
-| coefficient | pth_download | onnx_download | GPU Mem(MB) | FPS | mAP 0.5:0.95(this repo) | mAP 0.5:0.95(paper) |
+| coefficient | pth_download | GPU Mem(MB) | FPS | Extreme FPS (Batchsize 32) | mAP 0.5:0.95(this repo) | mAP 0.5:0.95(paper) |
 | :-----: | :-----: | :------: | :------: | :------: | :-----: | :-----: |
-| D0 | [efficientdet-d0.pth](https://github.com/zylo117/Yet-Another-Efficient-Pytorch/releases/download/1.0/efficientdet-d0.pth) | pending | 1049 | 36.20 | 32.6 | 33.8
-| D1 | [efficientdet-d1.pth](https://github.com/zylo117/Yet-Another-Efficient-Pytorch/releases/download/1.0/efficientdet-d1.pth) | pending | 1159 | 29.69 | 38.2 | 39.6
-| D2 | [efficientdet-d2.pth](https://github.com/zylo117/Yet-Another-Efficient-Pytorch/releases/download/1.0/efficientdet-d2.pth) | pending | 1321 | 26.50 | 41.5 | 43.0
-| D3 | [efficientdet-d3.pth](https://github.com/zylo117/Yet-Another-Efficient-Pytorch/releases/download/1.0/efficientdet-d3.pth) | pending | 1647 | 22.73 | 44.9 | 45.8
-| D4 | [efficientdet-d4.pth](https://github.com/zylo117/Yet-Another-Efficient-Pytorch/releases/download/1.0/efficientdet-d4.pth) | pending | 1903 | 14.75 | 48.1 | 49.4
-| D5 | [efficientdet-d5.pth](https://github.com/zylo117/Yet-Another-Efficient-Pytorch/releases/download/1.0/efficientdet-d5.pth) | pending | 2255 | 7.11 |49.5 | 50.7
-| D6 | [efficientdet-d6.pth](https://github.com/zylo117/Yet-Another-Efficient-Pytorch/releases/download/1.0/efficientdet-d6.pth) | pending | 2985 | 5.30 | 50.1 | 51.7
-| D7 | [efficientdet-d7.pth](https://github.com/zylo117/Yet-Another-Efficient-Pytorch/releases/download/1.0/efficientdet-d7.pth) | pending | 3819 | 3.73 | 50.7 | 52.2
+| D0 | [efficientdet-d0.pth](https://github.com/zylo117/Yet-Another-Efficient-Pytorch/releases/download/1.0/efficientdet-d0.pth) | 1049 | 36.20 | 163.14 | 32.6 | 33.8
+| D1 | [efficientdet-d1.pth](https://github.com/zylo117/Yet-Another-Efficient-Pytorch/releases/download/1.0/efficientdet-d1.pth) | 1159 | 29.69 | 53.82 | 38.2 | 39.6
+| D2 | [efficientdet-d2.pth](https://github.com/zylo117/Yet-Another-Efficient-Pytorch/releases/download/1.0/efficientdet-d2.pth) | 1321 | 26.50 | 40.43 | 41.5 | 43.0
+| D3 | [efficientdet-d3.pth](https://github.com/zylo117/Yet-Another-Efficient-Pytorch/releases/download/1.0/efficientdet-d3.pth) | 1647 | 22.73 | - | 44.9 | 45.8
+| D4 | [efficientdet-d4.pth](https://github.com/zylo117/Yet-Another-Efficient-Pytorch/releases/download/1.0/efficientdet-d4.pth) | 1903 | 14.75 | - | 48.1 | 49.4
+| D5 | [efficientdet-d5.pth](https://github.com/zylo117/Yet-Another-Efficient-Pytorch/releases/download/1.0/efficientdet-d5.pth) | 2255 | 7.11 | - | 49.5 | 50.7
+| D6 | [efficientdet-d6.pth](https://github.com/zylo117/Yet-Another-Efficient-Pytorch/releases/download/1.0/efficientdet-d6.pth) | 2985 | 5.30 | - | 50.1 | 51.7
+| D7 | [efficientdet-d7.pth](https://github.com/zylo117/Yet-Another-Efficient-Pytorch/releases/download/1.0/efficientdet-d7.pth) | 3819 | 3.73 | - | 50.7 | 52.2
 
 ## Speed Test
 
@@ -140,27 +140,27 @@ ___
     # The first few epoches will be rather unstable,
     # it's quite normal when you train from scratch.
     
-    python train.py -c 0 --batchsize 12
+    python train.py -c 0 --batch_size 12
     
 ## 3.b. Train a custom dataset from scratch
     
     # train efficientdet-d1 on a custom dataset 
     # with batchsize 8 and learning rate 1e-5
     
-    python train.py -c 1 --batchsize 8 --lr 1e-5
+    python train.py -c 1 --batch_size 8 --lr 1e-5
     
 ## 3.c. Train a custom dataset with pretrained weights (Highly Recommended)
 
     # train efficientdet-d2 on a custom dataset with pretrained weights
     # with batchsize 8 and learning rate 1e-5 for 10 epoches
     
-    python train.py -c 2 --batchsize 8 --lr 1e-5 --num_epochs 10 \
+    python train.py -c 2 --batch_size 8 --lr 1e-5 --num_epochs 10 \
      --load_weights /path/to/your/weights/efficientdet-d2.pth
     
     # with a coco-pretrained, you can even freeze the backbone and train heads only
     # to speed up training and help convergence.
     
-    python train.py -c 2 --batchsize 8 --lr 1e-5 --num_epochs 10 \
+    python train.py -c 2 --batch_size 8 --lr 1e-5 --num_epochs 10 \
      --load_weights /path/to/your/weights/efficientdet-d2.pth \
      --head_only True
      
@@ -173,7 +173,7 @@ ___
 
     # let says you started a training session like this.
     
-    python train.py -c 2 --batchsize 8 --lr 1e-5 \
+    python train.py -c 2 --batch_size 8 --lr 1e-5 \
      --load_weights /path/to/your/weights/efficientdet-d2.pth \
      --head_only True
      
@@ -182,7 +182,7 @@ ___
     # now you want to resume training from the last checkpoint
     # simply set load_weights to 'last'
     
-    python train.py -c 2 --batchsize 8 --lr 1e-5 \
+    python train.py -c 2 --batch_size 8 --lr 1e-5 \
      --load_weights last \
      --head_only True
 
@@ -196,7 +196,7 @@ ___
 ## 7. Debug training (optional)
     
     # when you get bad result, you need to debug the training result.
-    python train.py -c 2 --batchsize 8 --lr 1e-5 --debug True
+    python train.py -c 2 --batch_size 8 --lr 1e-5 --debug True
     
     # then checkout test/ folder, there you can visualize the predicted boxes during training
     # don't panic if you see countless of error boxes, it happens when the training is at early stage.
@@ -209,12 +209,8 @@ ___
 - [X] adapt anchor strategies
 - [X] mAP tests
 - [X] training-scripts
-- [ ] tensorflow's consistency tuning with pytorch. 
 - [X] efficientdet D6 supports
 - [X] efficientdet D7 supports
-- [ ] onnx support
-- [ ] tensorRT/TVM support
-- [ ] re-implement tensorflow's weird bilinear interpolation algorithm in python, then cython.
 
 # FAQ:
 
@@ -295,9 +291,7 @@ A3: Check out the update log if it's been fixed, then pull the latest code to tr
 
 # Known issues
 
-1. Official EfficientDet use TensorFlow bilinear interpolation to resize image inputs, while it is different from many other methods (opencv/pytorch), so the output is definitely slightly different from the official one. But when I copy the input that generated by TensorFlow bilinear interpolation, the result is still slightly different. I will test mAP later, if this cause performance loss, either finetune the model, or figure out the divergence and fix it. But the benchmark uphere is tested when images are interpolated by opencv's bilinear algorithm, and the result seems nice.
-
-2. D6/D7 BiFPN use unweighted sum for training stability, I'm working a fix to adapt to D6/D7.
+1. Official EfficientDet use TensorFlow bilinear interpolation to resize image inputs, while it is different from many other methods (opencv/pytorch), so the output is definitely slightly different from the official one. 
     
 # Visual Comparison
 
@@ -322,3 +316,10 @@ Appreciate the great work from the following repositories:
 If you like this repository, or if you'd like to support the author for any reason, you can donate to the author. Feel free to send me your name or introducing pages, I will make sure your name(s) on the sponsors list. 
 
 <img src="https://raw.githubusercontent.com/zylo117/Yet-Another-Efficient-Pytorch/master/res/alipay.jpg" width="360">
+
+## Sponsors
+
+Sincerely thank you for your generosity.
+
+[cndylan](https://github.com/cndylan)
+[claire-s11](https://github.com/claire-s11)
